@@ -14,14 +14,16 @@ export default function Hero() {
       </motion.h1>
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0, delay: 0.2 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
         className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-6"
       >
         {profile.role}
       </motion.h2>
       <motion.p
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0, delay: 0.4 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
         className="max-w-xl text-gray-700 dark:text-gray-400 mb-8"
       >
         {profile.tagline}
