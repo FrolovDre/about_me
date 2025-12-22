@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 const blobs = [
   {
@@ -21,18 +21,24 @@ const blobs = [
 ];
 
 export default function BlobBackground() {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden">
       {blobs.map((blob, index) => (
         <motion.div
           key={blob.className}
-          className={`absolute ${blob.className} rounded-full blur-3xl opacity-70 mix-blend-screen dark:mix-blend-lighten`}
-          animate={{
-            x: [0, 20, -10, 0],
-            y: [0, -20, 10, 0],
-            rotate: [0, 8, -6, 0],
-            scale: [1, 1.05, 0.98, 1],
-          }}
+          className={`absolute ${blob.className} rounded-full blur-3xl opacity-50 mix-blend-screen dark:mix-blend-lighten`}
+          animate={
+            prefersReducedMotion
+              ? undefined
+              : {
+                  x: [0, 20, -10, 0],
+                  y: [0, -20, 10, 0],
+                  rotate: [0, 8, -6, 0],
+                  scale: [1, 1.05, 0.98, 1],
+                }
+          }
           transition={{
             duration: blob.duration,
             repeat: Infinity,

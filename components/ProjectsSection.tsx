@@ -1,46 +1,29 @@
 "use client";
 
-import { motion } from 'framer-motion';
 import profile from '../data/profile';
 import ProjectCard from './ProjectCard';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.15 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
-};
+import { Reveal, RevealGroup, RevealItem } from './Reveal';
 
 export default function ProjectsSection() {
   return (
-    <section id="projects" className="py-16">
-      <div className="flex items-end justify-between mb-8">
-        <div>
-          <h3 className="text-3xl font-semibold mb-2">Проекты</h3>
-          <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
-            От коротких исследований до архитектурных проектов — каждый кейс подсвечивает продуктовую ценность.
+    <section id="projects" className="scroll-mt-24 py-24">
+      <Reveal className="mb-10">
+        <div className="max-w-2xl space-y-3">
+          <h3 className="text-3xl font-semibold text-slate-900 dark:text-white md:text-4xl">
+            {profile.ui.sections.projectsTitle}
+          </h3>
+          <p className="text-base text-slate-600 dark:text-slate-300 md:text-lg">
+            {profile.ui.sections.projectsIntro}
           </p>
         </div>
-      </div>
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
-        className="grid gap-8 lg:grid-cols-2"
-      >
+      </Reveal>
+      <RevealGroup className="grid gap-8 lg:grid-cols-2">
         {profile.projects.map((project) => (
-          <motion.div key={project.slug} variants={itemVariants}>
+          <RevealItem key={project.slug}>
             <ProjectCard project={project} />
-          </motion.div>
+          </RevealItem>
         ))}
-      </motion.div>
+      </RevealGroup>
     </section>
   );
 }

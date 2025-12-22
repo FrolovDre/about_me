@@ -45,6 +45,47 @@ export interface ProfileData {
   about: string;
   whatILookFor: string;
   highlights?: string[];
+  resumeUrl: string;
+  navigation: { href: string; label: string }[];
+  ui: {
+    heroCta: {
+      primaryLabel: string;
+      secondaryLabel: string;
+    };
+    siteTitle: string;
+    metaTitle: string;
+    metaDescription: string;
+    sections: {
+      aboutTitle: string;
+      skillsTitle: string;
+      projectsTitle: string;
+      projectsIntro: string;
+      experienceTitle: string;
+      contactTitle: string;
+      contactIntro: string;
+    };
+    projectLinkLabel: string;
+    projectCase: {
+      backLabel: string;
+      problemTitle: string;
+      actionsTitle: string;
+      resultsTitle: string;
+      linksTitle: string;
+    };
+    contactLabels: {
+      location: string;
+      email: string;
+      phone: string;
+      socials: string;
+    };
+    contactForm: {
+      nameLabel: string;
+      emailLabel: string;
+      messageLabel: string;
+      submitLabel: string;
+    };
+    footerNote: string;
+  };
   contact: {
     email: string;
     phone?: string;
@@ -77,6 +118,55 @@ const profile: ProfileData = {
     'Ищу стажировку или позицию Junior Product Manager в сфере цифровых продуктов, где смогу объединить аналитические компетенции и менеджерский опыт для создания новых сервисов. Рассматриваю удалённый формат работы.',
   highlights: ['Открыт к стажировкам и junior-ролям', 'English C1', 'Ориентируюсь на продуктовые метрики'],
   // Контактные данные
+  resumeUrl: '/CV.pdf',
+  navigation: [
+    { href: '#about', label: 'Обо мне' },
+    { href: '#skills', label: 'Навыки' },
+    { href: '#projects', label: 'Проекты' },
+    { href: '#experience', label: 'Опыт' },
+    { href: '#contact', label: 'Контакты' },
+  ],
+  ui: {
+    heroCta: {
+      primaryLabel: 'Скачать резюме',
+      secondaryLabel: 'Связаться',
+    },
+    siteTitle: 'Портфолио',
+    metaTitle: 'Портфолио Андрея Фролова',
+    metaDescription:
+      'Персональный сайт‑портфолио Андрея Фролова: проекты, опыт работы, образование и достижения.',
+    sections: {
+      aboutTitle: 'Обо мне',
+      skillsTitle: 'Навыки',
+      projectsTitle: 'Проекты',
+      projectsIntro:
+        'От коротких исследований до архитектурных проектов — каждый кейс показывает продуктовую ценность и влияние на бизнес.',
+      experienceTitle: 'Опыт',
+      contactTitle: 'Контакты',
+      contactIntro: 'Открыт к сотрудничеству, проектам и новым возможностям.',
+    },
+    projectLinkLabel: 'Подробнее',
+    projectCase: {
+      backLabel: 'К проектам',
+      problemTitle: 'Задача',
+      actionsTitle: 'Что сделал',
+      resultsTitle: 'Результат',
+      linksTitle: 'Ссылки',
+    },
+    contactLabels: {
+      location: 'Локация',
+      email: 'Email',
+      phone: 'Телефон',
+      socials: 'Соцсети',
+    },
+    contactForm: {
+      nameLabel: 'Имя',
+      emailLabel: 'Email',
+      messageLabel: 'Сообщение',
+      submitLabel: 'Отправить',
+    },
+    footerNote: 'Все права защищены.',
+  },
   contact: {
     email: '5rolov.a9dr8y@gmail.com',
     phone: '+7 (916) 9238213',
