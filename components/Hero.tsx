@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
 import profile from '../data/profile';
 import BlobBackground from './BlobBackground';
 
@@ -12,14 +12,18 @@ export default function Hero() {
   const parts = highlight ? profile.tagline.split(highlight) : [profile.tagline];
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const prefersReducedMotion = useReducedMotion();
   const springX = useSpring(mouseX, { stiffness: 40, damping: 20 });
   const springY = useSpring(mouseY, { stiffness: 40, damping: 20 });
+  const transition = prefersReducedMotion ? { duration: 0 } : { duration: 0.6 };
+  const entryOffset = prefersReducedMotion ? 0 : 20;
 
   return (
     <section
-      className="relative min-h-screen flex flex-col justify-center items-start pt-24 pb-16 overflow-hidden"
+      className="relative flex min-h-[80vh] flex-col justify-center gap-10 overflow-hidden py-28"
       id="hero"
       onMouseMove={(event) => {
+        if (prefersReducedMotion) return;
         const rect = event.currentTarget.getBoundingClientRect();
         const x = (event.clientX - rect.left - rect.width / 2) / 40;
         const y = (event.clientY - rect.top - rect.height / 2) / 40;
@@ -27,33 +31,34 @@ export default function Hero() {
         mouseY.set(y);
       }}
       onMouseLeave={() => {
+        if (prefersReducedMotion) return;
         mouseX.set(0);
         mouseY.set(0);
       }}
     >
       <BlobBackground />
-      <motion.div style={{ x: springX, y: springY }} className="w-full">
+      <motion.div style={{ x: springX, y: springY }} className="w-full max-w-3xl space-y-6">
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: entryOffset }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-4xl md:text-6xl font-bold mb-4"
+          transition={transition}
+          className="text-4xl font-semibold tracking-tight text-slate-900 dark:text-white md:text-6xl"
         >
           {profile.name}
         </motion.h1>
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: entryOffset }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-6"
+          transition={{ ...transition, delay: prefersReducedMotion ? 0 : 0.15 }}
+          className="text-xl text-slate-600 dark:text-slate-300 md:text-2xl"
         >
           {profile.role}
         </motion.h2>
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: entryOffset }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-          className="max-w-2xl text-lg text-gray-700 dark:text-gray-300 mb-8"
+          transition={{ ...transition, delay: prefersReducedMotion ? 0 : 0.3 }}
+          className="text-lg leading-relaxed text-slate-600 dark:text-slate-300"
         >
           {parts[0]}
           {highlight && (
@@ -67,29 +72,29 @@ export default function Hero() {
           {parts[1] ?? ''}
         </motion.p>
         {profile.highlights && profile.highlights.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-8">
+          <div className="flex flex-wrap gap-2">
             {profile.highlights.map((item) => (
               <span
                 key={item}
-                className="rounded-full border border-white/30 bg-white/70 px-3 py-1 text-sm text-gray-700 shadow-sm backdrop-blur dark:border-white/10 dark:bg-gray-900/60 dark:text-gray-200"
+                className="rounded-full border border-slate-200/70 bg-white/80 px-3 py-1 text-xs font-medium text-slate-600 shadow-sm backdrop-blur dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-200"
               >
                 {item}
               </span>
             ))}
           </div>
         )}
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-3 pt-2">
           <a
-            href="/CV.pdf"
-            className="group inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 px-6 py-3 text-white font-semibold shadow-lg shadow-sky-500/30 transition-transform hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-sky-400"
+            href={profile.resumeUrl}
+            className="group inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98] dark:bg-white dark:text-slate-900"
           >
-            Скачать резюме
+            {profile.ui.heroCta.primaryLabel}
           </a>
           <a
             href="#contact"
-            className="inline-flex items-center justify-center rounded-full border border-sky-500/40 px-6 py-3 font-semibold text-sky-700 transition-all hover:bg-sky-500/10 dark:text-sky-200"
+            className="inline-flex items-center justify-center rounded-full border border-slate-200/80 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white/70 hover:shadow-sm active:scale-[0.98] dark:border-white/10 dark:text-slate-200 dark:hover:border-white/20 dark:hover:bg-slate-900/60"
           >
-            Связаться
+            {profile.ui.heroCta.secondaryLabel}
           </a>
         </div>
       </motion.div>

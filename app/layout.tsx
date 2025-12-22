@@ -3,15 +3,15 @@ import { ReactNode } from 'react';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import { ThemeProvider } from '../components/ThemeProvider';
+import CursorGlow from '../components/CursorGlow';
+import profile from '../data/profile';
 
 export const metadata = {
-  title: 'Портфолио Андрея Фролова',
-  description:
-    'Персональный сайт‑портфолио Андрея Фролова: проекты, опыт работы, образование и достижения.',
+  title: profile.ui.metaTitle,
+  description: profile.ui.metaDescription,
   openGraph: {
-    title: 'Портфолио Андрея Фролова',
-    description:
-      'Персональный сайт‑портфолио Андрея Фролова: проекты, опыт работы, образование и достижения.',
+    title: profile.ui.metaTitle,
+    description: profile.ui.metaDescription,
     images: ['/og.png'],
   },
 };
@@ -19,10 +19,13 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ru">
-      <body>
+      <body className="relative overflow-x-hidden">
+        <CursorGlow />
         <ThemeProvider>
           <NavBar />
-          <main className="max-w-5xl mx-auto px-4">{children}</main>
+          <main className="relative z-10 mx-auto max-w-[1120px] px-4 sm:px-6 lg:px-8">
+            {children}
+          </main>
           <Footer />
         </ThemeProvider>
       </body>

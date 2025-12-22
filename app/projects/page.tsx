@@ -1,14 +1,14 @@
 import ProjectsSection from '../../components/ProjectsSection';
+import profile from '../../data/profile';
 
 export const metadata = {
-  title: 'Проекты',
-  description: 'Список выполненных проектов',
+  title: profile.ui.sections.projectsTitle,
+  description: profile.ui.sections.projectsIntro,
 };
 
 export default function ProjectsPage() {
   return (
-    <div className="max-w-5xl mx-auto px-4 py-24">
-      <h1 className="text-3xl font-bold mb-6">Проекты</h1>
+    <div className="mx-auto max-w-[1120px] px-4 sm:px-6 lg:px-8">
       <ProjectsSection />
     </div>
   );
