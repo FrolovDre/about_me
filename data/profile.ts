@@ -77,6 +77,18 @@ export interface ProfileData {
       skipLabel: string;
       openLabel: string;
       closeLabel: string;
+      introPrompt: string;
+      controls: {
+        title: string;
+        items: string[];
+      };
+      windowLabels: {
+        minimize: string;
+        close: string;
+        restore: string;
+        minimized: string;
+        description: string;
+      };
     };
     accessibility: {
       themeToggleLabel: string;
@@ -92,6 +104,7 @@ export interface ProfileData {
       projectsTitle: string;
       projectsIntro: string;
       experienceTitle: string;
+      experienceIntro: string;
       contactTitle: string;
       contactIntro: string;
     };
@@ -138,15 +151,14 @@ const profile: ProfileData = {
   name: 'Андрей Фролов',
   role: 'Product / Project Manager',
   // Короткий слоган, который кратко описывает вашу ценность
-  tagline:
-    'Помогаю бизнесу создавать цифровые продукты, совмещая данные, стратегию и заботу о пользователях',
+  tagline: 'Создаю цифровые продукты через данные, стратегию и заботу о пользователе',
   taglineHighlight: 'цифровые продукты',
   // Описание обо мне
   about:
-    'Магистрант НИУ ВШЭ и выпускник МГУ, увлечён созданием продуктов, которые решают реальные задачи пользователей и приносят измеримую пользу бизнесу. Обладаю сильными аналитическими навыками, опытом работы в Agile‑среде и пониманием полного жизненного цикла продукта. Стремлюсь присоединиться к продуктовой команде, чтобы применять и развивать свои навыки.',
+    'Магистрант НИУ ВШЭ и выпускник МГУ. Создаю продукты, которые решают задачи пользователей и дают измеримую пользу бизнесу. Сильная аналитика, Agile‑опыт и понимание полного цикла продукта.',
   // Что вы ищете — тип проекта, формат работы, география
   whatILookFor:
-    'Ищу стажировку или позицию Junior Product Manager в сфере цифровых продуктов, где смогу объединить аналитические компетенции и менеджерский опыт для создания новых сервисов. Рассматриваю удалённый формат работы.',
+    'Ищу стажировку или junior‑роль в цифровых продуктах. Хочу объединять аналитику и менеджерский опыт для запуска новых сервисов. Открыт к удалённому формату.',
   valueProps: [
     'Формирую продуктовую стратегию и приоритизацию через данные и метрики.',
     'Превращаю исследования в понятные решения и пользовательские сценарии.',
@@ -221,11 +233,23 @@ const profile: ProfileData = {
     metaDescription:
       'Персональный сайт‑портфолио Андрея Фролова: проекты, опыт работы, образование и достижения.',
     map: {
-      title: 'Vaporwave Map',
-      subtitle: 'Выбери узел, чтобы перейти к разделу.',
+      title: 'Андрей Фролов',
+      subtitle: '',
       skipLabel: 'Пропустить карту',
-      openLabel: 'Открыть карту',
+      openLabel: 'Открыть окно',
       closeLabel: 'Закрыть карту',
+      introPrompt: 'Что ищу сейчас',
+      controls: {
+        title: 'Map Controls',
+        items: ['Click nodes', 'Drag windows', 'Esc to close', 'Minimize to return to map'],
+      },
+      windowLabels: {
+        minimize: 'Свернуть окно',
+        close: 'Закрыть окно',
+        restore: 'Восстановить окно',
+        minimized: 'Свернутые окна',
+        description: 'Окно раздела с контентом. Используйте Tab для навигации.',
+      },
     },
     accessibility: {
       themeToggleLabel: 'Сменить тему',
@@ -240,10 +264,11 @@ const profile: ProfileData = {
       skillsTitle: 'Навыки',
       projectsTitle: 'Проекты',
       projectsIntro:
-        'От коротких исследований до архитектурных проектов — каждый кейс показывает продуктовую ценность и влияние на бизнес.',
+        'Кейсы с фокусом на ценность для пользователя и влияние на бизнес.',
       experienceTitle: 'Опыт',
+      experienceIntro: 'Результаты, зоны ответственности и инструменты — кратко и по делу.',
       contactTitle: 'Контакты',
-      contactIntro: 'Открыт к сотрудничеству, проектам и новым возможностям.',
+      contactIntro: 'Открыт к сотрудничеству и новым возможностям.',
     },
     projectLinkLabel: 'Подробнее',
     projectCase: {
