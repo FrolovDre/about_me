@@ -1,8 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type MouseEvent } from 'react';
 import profile from '../data/profile';
+import MapRoutes from './MapRoutes';
 import Window from './Window';
 import ContactWindow from './windows/ContactWindow';
 import ExperienceWindow from './windows/ExperienceWindow';
@@ -11,11 +12,16 @@ import ProjectsWindow from './windows/ProjectsWindow';
 import SkillsWindow from './windows/SkillsWindow';
 
 const nodePositions: Record<string, string> = {
-  home: 'md:left-[18%] md:top-[24%]',
-  skills: 'md:left-[72%] md:top-[28%]',
-  projects: 'md:left-1/2 md:top-[48%] md:-translate-x-1/2 md:-translate-y-1/2',
-  experience: 'md:left-[16%] md:top-[64%]',
-  contact: 'md:left-[82%] md:top-[70%]',
+  home:
+    'order-2 md:left-[18%] md:top-[34%] md:w-[360px] md:h-[180px]',
+  projects:
+    'order-1 col-span-2 md:left-[52%] md:top-[54%] md:-translate-x-1/2 md:-translate-y-1/2 md:w-[520px] md:h-[240px]',
+  experience:
+    'order-4 md:left-[18%] md:top-[78%] md:w-[640px] md:h-[120px]',
+  skills:
+    'order-3 md:left-[78%] md:top-[30%] md:w-[420px] md:h-[190px]',
+  contact:
+    'order-5 md:left-[82%] md:top-[74%] md:w-[360px] md:h-[190px]',
 };
 
 const windowPresets: Record<string, { left: string; top: string }> = {
@@ -31,6 +37,7 @@ export default function VaporMapDesktop() {
   const [windowOrder, setWindowOrder] = useState<string[]>([]);
   const [activeWindow, setActiveWindow] = useState<string>('');
   const [isMobile, setIsMobile] = useState(false);
+  const [skillsFocus, setSkillsFocus] = useState<string | null>(null);
   const constraintsRef = useRef<HTMLDivElement | null>(null);
   const openerRefs = useRef<Record<string, HTMLElement | null>>({});
 
@@ -51,7 +58,7 @@ export default function VaporMapDesktop() {
         },
         skills: {
           title: profile.ui.sections.skillsTitle,
-          content: <SkillsWindow />,
+          content: <SkillsWindow focusCategory={skillsFocus} />,
         },
         projects: {
           title: profile.ui.sections.projectsTitle,
@@ -144,27 +151,44 @@ export default function VaporMapDesktop() {
 
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
-  const routeSegments = [
-    { id: 'intro-projects', from: 'home', to: 'projects', className: 'left-[26%] top-[34%] w-[30%] rotate-[10deg]' },
-    { id: 'skills-projects', from: 'skills', to: 'projects', className: 'left-[56%] top-[36%] w-[24%] rotate-[-8deg]' },
-    { id: 'projects-experience', from: 'projects', to: 'experience', className: 'left-[30%] top-[56%] w-[30%] rotate-[6deg]' },
-    { id: 'projects-contact', from: 'projects', to: 'contact', className: 'left-[58%] top-[58%] w-[26%] rotate-[-6deg]' },
-  ];
-
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
-      <div className="absolute inset-0 vapor-map-sky" aria-hidden="true" />
-      <div className="retro-grid grain-overlay absolute inset-0 opacity-80" aria-hidden="true" />
+      <div className="absolute inset-0 z-0 vapor-map-sky" aria-hidden="true" />
+      <div className="retro-grid grain-overlay absolute inset-0 z-0 opacity-50" aria-hidden="true" />
       <div
-        className="absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-neon-pink/30 via-transparent to-transparent"
+        className="absolute inset-x-0 top-0 z-0 h-52 bg-gradient-to-b from-neon-pink/30 via-transparent to-transparent"
         aria-hidden="true"
       />
       <div
-        className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-neon-purple/30 via-transparent to-transparent"
+        className="absolute inset-x-0 bottom-0 z-0 h-56 bg-gradient-to-t from-neon-purple/30 via-transparent to-transparent"
         aria-hidden="true"
       />
 
-      <div className="relative z-10 flex min-h-screen flex-col" ref={constraintsRef}>
+      <div className="absolute inset-0 z-10 pointer-events-none" aria-hidden="true">
+        <div
+          className="absolute left-1/2 top-[55%] h-[600px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+          style={{
+            background:
+              'radial-gradient(circle at center, rgba(255, 168, 120, 0.18), transparent 70%)',
+          }}
+        />
+        <div
+          className="absolute left-[18%] top-[70%] h-[420px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+          style={{
+            background:
+              'radial-gradient(circle at center, rgba(120, 210, 255, 0.14), transparent 70%)',
+          }}
+        />
+        <div
+          className="absolute left-[82%] top-[35%] h-[420px] w-[680px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+          style={{
+            background:
+              'radial-gradient(circle at center, rgba(200, 130, 255, 0.12), transparent 70%)',
+          }}
+        />
+      </div>
+
+      <div className="relative z-20 flex min-h-screen flex-col" ref={constraintsRef}>
         <header className="flex flex-wrap items-start justify-between gap-6 px-6 py-8 md:px-12">
           <div className="max-w-2xl space-y-3">
             <p className="text-xs uppercase tracking-[0.3em] text-neon-cyan/80">
@@ -186,22 +210,11 @@ export default function VaporMapDesktop() {
         </header>
 
         <div className="relative flex flex-1 items-center justify-center px-6 pb-10 md:px-12">
-          {routeSegments.map((route) => {
-            const isActive = hoveredNode === route.from || hoveredNode === route.to;
-            return (
-              <span
-                key={route.id}
-                className={`pointer-events-none absolute hidden h-0.5 origin-left rounded-full transition md:block ${route.className} ${
-                  isActive
-                    ? 'bg-gradient-to-r from-neon-pink/90 via-neon-cyan/90 to-neon-purple/90 shadow-glow'
-                    : 'bg-gradient-to-r from-white/10 via-white/20 to-white/10'
-                }`}
-                aria-hidden="true"
-              />
-            );
-          })}
+          <div className="absolute inset-0 z-20 hidden md:block">
+            <MapRoutes hoveredNode={hoveredNode} />
+          </div>
 
-          <div className="relative grid w-full max-w-5xl grid-cols-2 gap-6 md:block md:h-[520px]">
+          <div className="relative z-30 grid w-full max-w-5xl grid-cols-2 gap-6 md:block md:h-[520px]">
             {profile.mapNodes.map((node, index) => (
               <MapNode
                 key={node.id}
@@ -211,8 +224,7 @@ export default function VaporMapDesktop() {
                 isActive={Boolean(openWindows[node.id])}
                 isMobile={isMobile}
                 onHover={setHoveredNode}
-                onSelect={(event) => {
-                  const opener = event.currentTarget as HTMLElement;
+                onSelect={(opener) => {
                   if (openWindows[node.id]) {
                     if (openWindows[node.id]?.minimized) {
                       restoreWindow(node.id);
@@ -221,6 +233,14 @@ export default function VaporMapDesktop() {
                     }
                   } else {
                     openWindow(node.id, opener);
+                  }
+                }}
+                onSkillChipSelect={(category, opener) => {
+                  setSkillsFocus(category);
+                  if (openWindows.skills) {
+                    bringToFront('skills');
+                  } else {
+                    openWindow('skills', opener);
                   }
                 }}
               />
@@ -265,7 +285,7 @@ export default function VaporMapDesktop() {
                   onFocus={bringToFront}
                   onClose={closeWindow}
                   onMinimize={minimizeWindow}
-                  style={{ zIndex: 30 + index }}
+                  style={{ zIndex: 40 + index }}
                 >
                   {config.content}
                 </Window>
@@ -284,10 +304,20 @@ interface MapNodeProps {
   isActive: boolean;
   isMobile: boolean;
   onHover: (id: string | null) => void;
-  onSelect: (event: MouseEvent<HTMLButtonElement>) => void;
+  onSelect: (opener: HTMLElement) => void;
+  onSkillChipSelect?: (category: string, opener: HTMLElement) => void;
 }
 
-function MapNode({ node, index, className, isActive, isMobile, onHover, onSelect }: MapNodeProps) {
+function MapNode({
+  node,
+  index,
+  className,
+  isActive,
+  isMobile,
+  onHover,
+  onSelect,
+  onSkillChipSelect,
+}: MapNodeProps) {
   const prefersReducedMotion = useReducedMotion();
   const variant =
     node.id === 'projects'
@@ -300,15 +330,28 @@ function MapNode({ node, index, className, isActive, isMobile, onHover, onSelect
             ? 'lighthouse'
             : 'base';
 
+  const handleActivate = (event: MouseEvent<HTMLDivElement>) => {
+    onSelect(event.currentTarget);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onSelect(event.currentTarget);
+    }
+  };
+
   return (
-    <motion.button
-      type="button"
-      onClick={onSelect}
+    <motion.div
+      role="button"
+      tabIndex={0}
+      onClick={handleActivate}
+      onKeyDown={handleKeyDown}
       onMouseEnter={() => onHover(node.id)}
       onMouseLeave={() => onHover(null)}
       onFocus={() => onHover(node.id)}
       onBlur={() => onHover(null)}
-      className={`group relative flex flex-col gap-2 rounded-[28px] border border-white/15 bg-gradient-to-br from-white/10 via-white/5 to-white/5 px-4 py-4 text-left shadow-glow transition focus-visible:ring-2 focus-visible:ring-neon-cyan md:absolute ${
+      className={`group relative flex min-h-[140px] w-full flex-col gap-2 rounded-[28px] border border-white/15 bg-gradient-to-br from-white/10 via-white/5 to-white/5 px-4 py-4 text-left shadow-glow transition-transform focus-visible:ring-2 focus-visible:ring-neon-cyan md:absolute ${
         className ?? ''
       } ${
         isActive
@@ -316,34 +359,27 @@ function MapNode({ node, index, className, isActive, isMobile, onHover, onSelect
           : 'hover:border-neon-pink/70 hover:text-neon-pink'
       } ${
         variant === 'main'
-          ? 'md:w-80 md:px-6 md:py-6'
+          ? 'md:border-2 md:border-neon-pink/60 md:px-8 md:py-6 md:shadow-glow-strong'
           : variant === 'runway'
-            ? 'md:w-96 md:flex-row md:items-center md:justify-between md:gap-4 md:py-4'
+            ? 'md:flex-row md:items-center md:justify-between md:gap-4 md:rounded-full md:py-4'
             : variant === 'cluster'
-              ? 'md:w-60'
-              : 'md:w-52'
-      }`}
-      initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9, y: 8 }}
-      animate={
-        prefersReducedMotion
-          ? { opacity: 1, scale: 1 }
-          : {
-              opacity: 1,
-              scale: 1,
-              y: [0, -6, 0],
-            }
-      }
+              ? 'md:px-6'
+              : 'md:px-5'
+      } hover:scale-[1.02] focus-visible:scale-[1.02]`}
+      initial={false}
+      animate={prefersReducedMotion ? { y: 0 } : { y: [0, -4, 0] }}
       transition={
         prefersReducedMotion
           ? { duration: 0.2 }
           : {
-              duration: 4 + index,
+              duration: 6 + index,
               repeat: Infinity,
               ease: 'easeInOut',
-              delay: index * 0.3,
+              delay: index * 0.2,
             }
       }
       aria-pressed={isActive}
+      aria-label={`${profile.ui.map.openLabel}: ${node.label}`}
       aria-describedby={!isMobile ? `${node.id}-tooltip` : undefined}
     >
       <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-white/70">
@@ -388,16 +424,55 @@ function MapNode({ node, index, className, isActive, isMobile, onHover, onSelect
 
       {variant === 'cluster' && (
         <>
-          <span className="pointer-events-none absolute -right-3 -top-2 h-6 w-6 rounded-full border border-white/20 bg-white/10 shadow-glow" aria-hidden="true" />
-          <span className="pointer-events-none absolute -left-4 bottom-6 h-5 w-5 rounded-full border border-white/20 bg-white/10 shadow-glow" aria-hidden="true" />
-          <span className="pointer-events-none absolute right-6 -bottom-4 h-4 w-4 rounded-full border border-white/20 bg-white/10 shadow-glow" aria-hidden="true" />
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              onSkillChipSelect?.('Продукт', event.currentTarget);
+            }}
+            className="absolute -right-[18px] -top-[18px] hidden rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/80 shadow-glow transition hover:border-neon-cyan/60 hover:text-neon-cyan focus-visible:ring-2 focus-visible:ring-neon-cyan md:inline-flex"
+          >
+            Продукт
+          </button>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              onSkillChipSelect?.('Технологии', event.currentTarget);
+            }}
+            className="absolute left-[22px] top-[-22px] hidden rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/80 shadow-glow transition hover:border-neon-cyan/60 hover:text-neon-cyan focus-visible:ring-2 focus-visible:ring-neon-cyan md:inline-flex"
+          >
+            Технологии
+          </button>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              onSkillChipSelect?.('Аналитика', event.currentTarget);
+            }}
+            className="absolute -left-[22px] bottom-[46px] hidden rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/80 shadow-glow transition hover:border-neon-cyan/60 hover:text-neon-cyan focus-visible:ring-2 focus-visible:ring-neon-cyan md:inline-flex"
+          >
+            Аналитика
+          </button>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              onSkillChipSelect?.('Менеджмент', event.currentTarget);
+            }}
+            className="absolute bottom-[-18px] right-[24px] hidden rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/80 shadow-glow transition hover:border-neon-cyan/60 hover:text-neon-cyan focus-visible:ring-2 focus-visible:ring-neon-cyan md:inline-flex"
+          >
+            Менеджмент
+          </button>
         </>
       )}
 
       {variant === 'lighthouse' && (
         <>
           <span
-            className="pointer-events-none absolute -right-2 -top-8 h-10 w-3 rounded-full bg-gradient-to-b from-neon-cyan/80 via-neon-purple/70 to-transparent shadow-glow"
+            className={`pointer-events-none absolute -right-2 -top-8 h-[120px] w-[8px] rounded-full bg-gradient-to-b from-neon-cyan/80 via-neon-purple/70 to-transparent shadow-glow ${
+              prefersReducedMotion ? '' : 'animate-pulse'
+            }`}
             aria-hidden="true"
           />
           <span
@@ -419,6 +494,6 @@ function MapNode({ node, index, className, isActive, isMobile, onHover, onSelect
           <span className="mt-2 block">{node.description}</span>
         </span>
       )}
-    </motion.button>
+    </motion.div>
   );
 }
