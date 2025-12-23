@@ -5,17 +5,17 @@ import { motion, useReducedMotion } from 'framer-motion';
 const blobs = [
   {
     className:
-      'top-[-10%] left-[-5%] h-64 w-64 md:h-80 md:w-80 bg-gradient-to-br from-sky-400/70 via-cyan-300/60 to-blue-500/70',
+      'top-[-10%] left-[-5%] h-64 w-64 md:h-80 md:w-80 bg-gradient-to-br from-neon-cyan/60 via-neon-purple/40 to-neon-pink/50',
     duration: 14,
   },
   {
     className:
-      'bottom-[-15%] right-[-10%] h-72 w-72 md:h-96 md:w-96 bg-gradient-to-br from-fuchsia-400/60 via-purple-400/50 to-indigo-500/70',
+      'bottom-[-15%] right-[-10%] h-72 w-72 md:h-96 md:w-96 bg-gradient-to-br from-neon-pink/60 via-neon-purple/50 to-neon-cyan/50',
     duration: 18,
   },
   {
     className:
-      'top-[20%] right-[15%] h-56 w-56 md:h-72 md:w-72 bg-gradient-to-br from-emerald-300/60 via-teal-300/60 to-cyan-400/70',
+      'top-[20%] right-[15%] h-56 w-56 md:h-72 md:w-72 bg-gradient-to-br from-neon-lime/40 via-neon-cyan/40 to-neon-purple/40',
     duration: 16,
   },
 ];

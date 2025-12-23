@@ -38,7 +38,7 @@ export default function ProjectCase({ project }: ProjectCaseProps) {
       <motion.div variants={itemVariants} className="mb-8">
         <Link
           href="/#projects"
-          className="link-underline inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+          className="link-underline inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-neon-cyan transition-colors hover:text-neon-pink"
         >
           <span aria-hidden="true">←</span>
           {profile.ui.projectCase.backLabel}
@@ -46,25 +46,25 @@ export default function ProjectCase({ project }: ProjectCaseProps) {
       </motion.div>
       <motion.div variants={itemVariants} className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
         <div>
-          <h1 className="text-4xl font-semibold text-slate-900 dark:text-white md:text-5xl">
+          <h1 className="text-4xl font-semibold text-white md:text-5xl">
             {project.title}
           </h1>
-          <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">{project.summary}</p>
+          <p className="mt-4 text-lg text-white/70">{project.summary}</p>
           <div className="mt-6 flex flex-wrap gap-2">
-            <span className="rounded-full border border-slate-200/70 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-200">
+            <span className="rounded-full border border-neon-pink/40 bg-neon-pink/10 px-3 py-1 text-xs font-medium text-neon-pink">
               {project.role}
             </span>
             {project.stack.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-slate-200/70 bg-white/70 px-3 py-1 text-xs text-slate-500 dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/60"
               >
                 {tag}
               </span>
             ))}
           </div>
         </div>
-        <div className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white/70 shadow-sm dark:border-white/10 dark:bg-slate-900/70">
+        <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-glow">
           <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
         </div>
       </motion.div>
@@ -72,26 +72,26 @@ export default function ProjectCase({ project }: ProjectCaseProps) {
       <div className="mt-12 grid gap-8">
         <motion.section
           variants={itemVariants}
-          className="rounded-2xl border border-slate-200/70 bg-white/80 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/70"
+          className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-glow"
         >
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">
+          <h2 className="text-2xl font-semibold text-white">
             {profile.ui.projectCase.problemTitle}
           </h2>
-          <p className="mt-3 text-slate-600 dark:text-slate-300">{project.problem || project.summary}</p>
+          <p className="mt-3 text-white/70">{project.problem || project.summary}</p>
         </motion.section>
 
         <motion.section
           variants={itemVariants}
-          className="rounded-2xl border border-slate-200/70 bg-white/80 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/70"
+          className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-glow"
         >
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">
+          <h2 className="text-2xl font-semibold text-white">
             {profile.ui.projectCase.actionsTitle}
           </h2>
           <ul className="mt-4 space-y-3">
             {(project.actions || []).map((action) => (
               <li key={action} className="flex items-start gap-3">
-                <span className="mt-2 h-2 w-2 rounded-full bg-slate-900 dark:bg-white" />
-                <span className="text-sm text-slate-600 dark:text-slate-300">{action}</span>
+                <span className="mt-2 h-2 w-2 rounded-full bg-neon-cyan" />
+                <span className="text-sm text-white/70">{action}</span>
               </li>
             ))}
           </ul>
@@ -99,16 +99,16 @@ export default function ProjectCase({ project }: ProjectCaseProps) {
 
         <motion.section
           variants={itemVariants}
-          className="rounded-2xl border border-slate-200/70 bg-white/80 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/70"
+          className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-glow"
         >
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">
+          <h2 className="text-2xl font-semibold text-white">
             {profile.ui.projectCase.resultsTitle}
           </h2>
           <div className="mt-4 grid gap-4 md:grid-cols-2">
             {project.metrics.map((metric) => (
               <div
                 key={metric}
-                className="rounded-xl border border-slate-200/60 bg-slate-50 p-4 text-sm font-medium text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-200"
+                className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm font-medium text-white/70"
               >
                 {metric}
               </div>
@@ -117,7 +117,7 @@ export default function ProjectCase({ project }: ProjectCaseProps) {
           {project.results && project.results.length > 0 && (
             <div className="mt-4 space-y-2">
               {project.results.map((result) => (
-                <p key={result} className="text-sm text-slate-600 dark:text-slate-300">
+                <p key={result} className="text-sm text-white/70">
                   {result}
                 </p>
               ))}
@@ -127,9 +127,9 @@ export default function ProjectCase({ project }: ProjectCaseProps) {
 
         <motion.section
           variants={itemVariants}
-          className="rounded-2xl border border-slate-200/70 bg-white/80 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/70"
+          className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-glow"
         >
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">
+          <h2 className="text-2xl font-semibold text-white">
             {profile.ui.projectCase.linksTitle}
           </h2>
           <div className="flex flex-wrap gap-3">
@@ -139,7 +139,7 @@ export default function ProjectCase({ project }: ProjectCaseProps) {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-200/70 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-300 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-slate-200"
+                className="inline-flex items-center gap-2 rounded-full border border-neon-cyan/40 bg-neon-cyan/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-neon-cyan transition-colors hover:border-neon-pink hover:text-neon-pink"
               >
                 {link.label}
               </a>

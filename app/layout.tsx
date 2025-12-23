@@ -4,6 +4,8 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import { ThemeProvider } from '../components/ThemeProvider';
 import CursorGlow from '../components/CursorGlow';
+import { MapOverlayProvider } from '../components/MapOverlayProvider';
+import VaporMapNav from '../components/VaporMapNav';
 import profile from '../data/profile';
 
 export const metadata = {
@@ -22,11 +24,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="relative overflow-x-hidden">
         <CursorGlow />
         <ThemeProvider>
-          <NavBar />
-          <main className="relative z-10 mx-auto max-w-[1120px] px-4 sm:px-6 lg:px-8">
-            {children}
-          </main>
-          <Footer />
+          <MapOverlayProvider>
+            <NavBar />
+            <VaporMapNav />
+            <main className="relative z-10 mx-auto max-w-[1120px] px-4 sm:px-6 lg:px-8">
+              {children}
+            </main>
+            <Footer />
+          </MapOverlayProvider>
         </ThemeProvider>
       </body>
     </html>
