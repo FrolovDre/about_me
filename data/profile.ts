@@ -233,8 +233,8 @@ const profile: ProfileData = {
     metaDescription:
       'Персональный сайт‑портфолио Андрея Фролова: проекты, опыт работы, образование и достижения.',
     map: {
-      title: 'Андрей Фролов',
-      subtitle: '',
+      title: 'Vaporwave Map',
+      subtitle: 'Карта всегда на экране, разделы открываются как окна.',
       skipLabel: 'Пропустить карту',
       openLabel: 'Открыть окно',
       closeLabel: 'Закрыть карту',
