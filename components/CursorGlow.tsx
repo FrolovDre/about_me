@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { useReducedMotion } from 'framer-motion';
 
-const GLOW_SIZE = 680;
+const GLOW_SIZE = 760;
 
 export default function CursorGlow() {
   const glowRef = useRef<HTMLDivElement | null>(null);
@@ -64,7 +64,7 @@ export default function CursorGlow() {
   return (
     <div
       ref={glowRef}
-      className="cursor-glow pointer-events-none fixed left-0 top-0 -z-10 h-[680px] w-[680px] rounded-full opacity-40 blur-[220px] transition-opacity duration-500 dark:opacity-30"
+      className="cursor-glow pointer-events-none fixed left-0 top-0 -z-10 h-[760px] w-[760px] rounded-full opacity-40 blur-[240px] transition-opacity duration-500 dark:opacity-30"
       aria-hidden="true"
     />
   );

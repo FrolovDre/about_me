@@ -3,12 +3,14 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useTheme } from './ThemeProvider';
+import { useMapOverlay } from './MapOverlayProvider';
 import { Bars3Icon, XMarkIcon, MoonIcon, SunIcon } from '@heroicons/react/24/solid';
 import ScrollProgress from './ScrollProgress';
 import profile from '../data/profile';
 
 export default function NavBar() {
   const { theme, toggleTheme } = useTheme();
+  const { openMap } = useMapOverlay();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -20,13 +22,13 @@ export default function NavBar() {
   }, []);
   return (
     <nav
-      className={`sticky top-0 inset-x-0 z-30 border-b border-slate-200/70 dark:border-white/5 backdrop-blur bg-white/80 dark:bg-slate-950/70 transition-all ${
-        scrolled ? 'py-2 shadow-[0_12px_24px_rgba(15,23,42,0.05)]' : 'py-4'
+      className={`sticky top-0 inset-x-0 z-30 border-b border-white/5 backdrop-blur bg-vapor-night/80 transition-all ${
+        scrolled ? 'py-2 shadow-[0_12px_24px_rgba(5,1,16,0.4)]' : 'py-4'
       }`}
     >
       <ScrollProgress />
       <div className="mx-auto flex max-w-[1120px] items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="text-lg font-semibold text-slate-900 dark:text-white">
+        <Link href="/" className="text-lg font-semibold text-white">
           {profile.ui.siteTitle}
         </Link>
         <div className="flex items-center space-x-4">
@@ -36,29 +38,36 @@ export default function NavBar() {
               <li key={item.href}>
                 <a
                   href={item.href}
-                  className="link-underline text-sm font-medium text-slate-600 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white transition-colors"
+                  className="link-underline text-xs font-medium uppercase tracking-[0.2em] text-white/70 transition-colors hover:text-neon-cyan"
                 >
                   {item.label}
                 </a>
               </li>
             ))}
           </ul>
+          <button
+            type="button"
+            onClick={openMap}
+            className="hidden rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white/70 transition hover:border-neon-cyan/70 hover:text-neon-cyan focus-visible:ring-2 focus-visible:ring-neon-cyan md:inline-flex"
+          >
+            {profile.ui.map.openLabel}
+          </button>
           {/* Theme toggle */}
           <button
-            aria-label="Сменить тему"
+            aria-label={profile.ui.accessibility.themeToggleLabel}
             onClick={toggleTheme}
-            className="relative flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/70 dark:border-white/10 bg-white/80 dark:bg-slate-900/70 shadow-sm transition-colors hover:bg-slate-100/80 dark:hover:bg-slate-800/80"
+            className="relative flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-sm transition-colors hover:border-neon-pink/60 hover:text-neon-pink"
           >
             {theme === 'dark' ? (
-              <SunIcon className="h-5 w-5 text-amber-400" />
+              <SunIcon className="h-5 w-5 text-neon-lime" />
             ) : (
-              <MoonIcon className="h-5 w-5 text-slate-700" />
+              <MoonIcon className="h-5 w-5 text-white/80" />
             )}
           </button>
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
-            aria-label="Меню"
+            className="md:hidden p-2 rounded-md border border-white/10 text-white/80 hover:border-neon-cyan/60 hover:text-neon-cyan"
+            aria-label={profile.ui.accessibility.menuLabel}
             onClick={() => setOpen(!open)}
           >
             {open ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
@@ -68,11 +77,23 @@ export default function NavBar() {
       {/* Mobile menu */}
       {open && (
         <ul className="md:hidden space-y-2 px-4 pb-4">
+          <li>
+            <button
+              type="button"
+              onClick={() => {
+                openMap();
+                setOpen(false);
+              }}
+              className="block w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left text-xs uppercase tracking-[0.25em] text-white/70"
+            >
+              {profile.ui.map.openLabel}
+            </button>
+          </li>
           {profile.navigation.map((item) => (
             <li key={item.href}>
               <a
                 href={item.href}
-                className="block py-2 border-b border-slate-200/70 dark:border-slate-800 text-slate-700 dark:text-slate-200"
+                className="block py-2 border-b border-white/10 text-white/80"
                 onClick={() => setOpen(false)}
               >
                 {item.label}

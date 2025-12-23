@@ -20,7 +20,12 @@ export interface Experience {
   position: string;
   period: string;
   location?: string;
-  summary: string;
+  summary?: string;
+  achievements: string[];
+  responsibilities: string[];
+  tools: string[];
+  highlight: string;
+  tags: string[];
 }
 
 export interface Education {
@@ -44,9 +49,20 @@ export interface ProfileData {
   taglineHighlight?: string;
   about: string;
   whatILookFor: string;
+  valueProps: string[];
+  quickFacts: { label: string; value: string }[];
   highlights?: string[];
   resumeUrl: string;
   navigation: { href: string; label: string }[];
+  mapNodes: {
+    id: string;
+    label: string;
+    href: string;
+    description: string;
+    badge: string;
+    icon: string;
+  }[];
+  experienceFilters: string[];
   ui: {
     heroCta: {
       primaryLabel: string;
@@ -55,6 +71,21 @@ export interface ProfileData {
     siteTitle: string;
     metaTitle: string;
     metaDescription: string;
+    map: {
+      title: string;
+      subtitle: string;
+      skipLabel: string;
+      openLabel: string;
+      closeLabel: string;
+    };
+    accessibility: {
+      themeToggleLabel: string;
+      menuLabel: string;
+      experienceOpenLabel: string;
+      experienceCloseLabel: string;
+    };
+    valueCardTitle: string;
+    valueCardNote: string;
     sections: {
       aboutTitle: string;
       skillsTitle: string;
@@ -116,6 +147,17 @@ const profile: ProfileData = {
   // Что вы ищете — тип проекта, формат работы, география
   whatILookFor:
     'Ищу стажировку или позицию Junior Product Manager в сфере цифровых продуктов, где смогу объединить аналитические компетенции и менеджерский опыт для создания новых сервисов. Рассматриваю удалённый формат работы.',
+  valueProps: [
+    'Формирую продуктовую стратегию и приоритизацию через данные и метрики.',
+    'Превращаю исследования в понятные решения и пользовательские сценарии.',
+    'Выстраиваю процессы, чтобы команда быстро выпускала ценность.',
+  ],
+  quickFacts: [
+    { label: 'Локация', value: 'Москва · удалённо' },
+    { label: 'Английский', value: 'C1' },
+    { label: 'Формат', value: 'Гибрид / удалённо' },
+    { label: 'Фокус', value: 'Product · Analytics · Research' },
+  ],
   highlights: ['Открыт к стажировкам и junior-ролям', 'English C1', 'Ориентируюсь на продуктовые метрики'],
   // Контактные данные
   resumeUrl: '/CV.pdf',
@@ -126,6 +168,49 @@ const profile: ProfileData = {
     { href: '#experience', label: 'Опыт' },
     { href: '#contact', label: 'Контакты' },
   ],
+  mapNodes: [
+    {
+      id: 'home',
+      label: 'Home / Intro',
+      href: '#about',
+      description: 'Имя, роль, фокус и быстрые факты.',
+      badge: 'CORE',
+      icon: '✦',
+    },
+    {
+      id: 'skills',
+      label: 'Skills',
+      href: '#skills',
+      description: 'Кластеры навыков и ключевые инструменты.',
+      badge: 'STACK',
+      icon: '⚡',
+    },
+    {
+      id: 'projects',
+      label: 'Projects',
+      href: '#projects',
+      description: 'Кейсы с метриками и решениями.',
+      badge: 'WORK',
+      icon: '⬡',
+    },
+    {
+      id: 'experience',
+      label: 'Experience',
+      href: '#experience',
+      description: 'Роли, результаты и зоны ответственности.',
+      badge: 'PATH',
+      icon: '◎',
+    },
+    {
+      id: 'contact',
+      label: 'Contact',
+      href: '#contact',
+      description: 'Связаться и обсудить сотрудничество.',
+      badge: 'LINK',
+      icon: '✉',
+    },
+  ],
+  experienceFilters: ['PMO', 'Product', 'Analytics', 'Research', 'Operations'],
   ui: {
     heroCta: {
       primaryLabel: 'Скачать резюме',
@@ -135,6 +220,21 @@ const profile: ProfileData = {
     metaTitle: 'Портфолио Андрея Фролова',
     metaDescription:
       'Персональный сайт‑портфолио Андрея Фролова: проекты, опыт работы, образование и достижения.',
+    map: {
+      title: 'Vaporwave Map',
+      subtitle: 'Выбери узел, чтобы перейти к разделу.',
+      skipLabel: 'Пропустить карту',
+      openLabel: 'Открыть карту',
+      closeLabel: 'Закрыть карту',
+    },
+    accessibility: {
+      themeToggleLabel: 'Сменить тему',
+      menuLabel: 'Меню',
+      experienceOpenLabel: 'Что делал',
+      experienceCloseLabel: 'Скрыть детали',
+    },
+    valueCardTitle: 'Чем полезен бизнесу',
+    valueCardNote: 'Открыт к junior‑ролям, стажировкам и смелым экспериментам.',
     sections: {
       aboutTitle: 'Обо мне',
       skillsTitle: 'Навыки',
@@ -380,40 +480,87 @@ const profile: ProfileData = {
       position: 'Руководитель проектов / Product Analyst',
       period: 'сентябрь 2024 — настоящее время',
       location: 'Москва, Россия',
-      summary:
-        'Руководство проектами и работа в PMO: планирование ресурсов и календарей, ведение реестра рисков, онбординг и поддержка участников команды, анализ трудозатрат. Настройка и автоматизация процессов в Jira, Confluence, MS Project и SharePoint, включая интеграцию систем и создание отчётных шаблонов. Разработка корпоративного AI‑ассистента, создание отчётов и дашбордов, организация коммуникаций и контроль качества.',
+      summary: 'PMO, продуктовая аналитика, операционная эффективность.',
+      achievements: [
+        'Автоматизировал отчётность и снизил ручные трудозатраты команды.',
+        'Запустил корпоративного AI‑ассистента для поддержки сотрудников.',
+        'Сформировал единый реестр рисков и календарей проектов.',
+      ],
+      responsibilities: [
+        'Планирование ресурсов, контроль сроков и загрузки.',
+        'Настройка Jira/Confluence/MS Project и интеграций.',
+        'Организация коммуникаций и контроль качества исполнения.',
+      ],
+      tools: ['Jira', 'Confluence', 'MS Project', 'SharePoint', 'SQL'],
+      highlight: '−20% времени на отчёты',
+      tags: ['PMO', 'Product', 'Analytics'],
     },
     {
       company: 'Туристический комплекс «Клязьминское водохранилище»',
       position: 'Руководитель проектов / Event‑менеджер',
       period: 'май 2023 — август 2024',
       location: 'Подмосковье, Россия',
-      summary:
-        'Организация и контроль проведения крупных корпоративных и развлекательных мероприятий: координация отделов, подготовка контрактов и технических заданий, бюджетирование и управление расходами, подбор и обучение персонала. Успешно реализованы две масштабные программы для клиентов.',
+      summary: 'Крупные офлайн‑проекты и сервисный дизайн мероприятий.',
+      achievements: [
+        'Реализовал 2 масштабные программы для корпоративных клиентов.',
+        'Выстроил контроль бюджета и подрядчиков на каждом этапе.',
+      ],
+      responsibilities: [
+        'Координация отделов, технические задания и контракты.',
+        'Бюджетирование, контроль расходов и качества сервиса.',
+        'Подбор, обучение и управление персоналом.',
+      ],
+      tools: ['Google Sheets', 'Notion', 'Briefing', 'Event Ops'],
+      highlight: '2 больших программы',
+      tags: ['Operations', 'Research'],
     },
     {
       company: 'Get Experts',
       position: 'Ассистент рекрутера',
       period: 'июль 2023 — август 2023',
       location: 'Москва, Россия',
-      summary:
-        'Участие в подборе персонала: поиск и скрининг резюме, телефонные интервью с кандидатами, организация встреч и сопровождение кандидатов на всех этапах.',
+      summary: 'Подбор и скрининг кандидатов.',
+      achievements: ['Сократил время поиска за счёт систематизации воронки.'],
+      responsibilities: [
+        'Поиск и скрининг резюме по профилям.',
+        'Телефонные интервью и организация встреч.',
+        'Сопровождение кандидатов до выхода.',
+      ],
+      tools: ['LinkedIn', 'ATS', 'Google Sheets'],
+      highlight: 'Ускорил скрининг',
+      tags: ['Research', 'Operations'],
     },
     {
       company: 'Норильский никель',
       position: 'Практикант в отделе HR',
       period: 'июнь 2022',
       location: 'Москва, Россия',
-      summary:
-        'Разработка теста по корпоративной культуре, подготовка программы обучения «Покорители Севера» совместно с Changellenge: создание заданий на Padlet и составление базы образовательных учреждений для набора сотрудников.',
+      summary: 'HR‑аналитика и образовательные программы.',
+      achievements: ['Создал тест по корпоративной культуре и программу обучения.'],
+      responsibilities: [
+        'Сбор и анализ контента по корпоративной культуре.',
+        'Проектирование образовательных заданий.',
+        'Формирование базы вузов для найма.',
+      ],
+      tools: ['Padlet', 'Excel', 'Survey tools'],
+      highlight: 'Запуск программы',
+      tags: ['Analytics', 'Research'],
     },
     {
       company: 'Туристический комплекс «Клязьминское водохранилище»',
       position: 'Помощник менеджера по работе с VIP‑клиентами',
       period: 'сентябрь 2019 — июнь 2020',
       location: 'Подмосковье, Россия',
-      summary:
-        'Подготовка и согласование договоров, взаимодействие с резидентами комплекса, координация работы отделов и решение организационных вопросов.',
+      summary: 'Сервис и коммуникации с VIP‑клиентами.',
+      achievements: ['Улучшил внутреннюю координацию между отделами.'],
+      responsibilities: [
+        'Подготовка договоров и согласование условий.',
+        'Коммуникации с резидентами и партнёрами.',
+        'Организация внутренних процессов.',
+      ],
+      tools: ['CRM', 'Docs', 'Service ops'],
+      highlight: 'VIP‑сервис',
+      tags: ['Operations'],
     },
   ],
   // Образование — учебные заведения, степени и годы
