@@ -43,28 +43,29 @@ export default function VaporMapDesktop() {
   }, []);
 
   const windowConfigs = useMemo(
-    () => ({
-      home: {
-        title: profile.ui.sections.aboutTitle,
-        content: <IntroWindow />,
-      },
-      skills: {
-        title: profile.ui.sections.skillsTitle,
-        content: <SkillsWindow />,
-      },
-      projects: {
-        title: profile.ui.sections.projectsTitle,
-        content: <ProjectsWindow />,
-      },
-      experience: {
-        title: profile.ui.sections.experienceTitle,
-        content: <ExperienceWindow />,
-      },
-      contact: {
-        title: profile.ui.sections.contactTitle,
-        content: <ContactWindow />,
-      },
-    }),
+    () =>
+      ({
+        home: {
+          title: profile.ui.sections.aboutTitle,
+          content: <IntroWindow />,
+        },
+        skills: {
+          title: profile.ui.sections.skillsTitle,
+          content: <SkillsWindow />,
+        },
+        projects: {
+          title: profile.ui.sections.projectsTitle,
+          content: <ProjectsWindow />,
+        },
+        experience: {
+          title: profile.ui.sections.experienceTitle,
+          content: <ExperienceWindow />,
+        },
+        contact: {
+          title: profile.ui.sections.contactTitle,
+          content: <ContactWindow />,
+        },
+      }) as const,
     [],
   );
 
@@ -137,7 +138,9 @@ export default function VaporMapDesktop() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeWindow, closeWindow]);
 
-  const minimizedWindows = windowOrder.filter((id) => openWindows[id]?.minimized);
+  const minimizedWindows = windowOrder.filter(
+    (id) => openWindows[id]?.minimized,
+  ) as (keyof typeof windowConfigs)[];
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
@@ -214,7 +217,7 @@ export default function VaporMapDesktop() {
                   className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.25em] text-white/70 transition hover:border-neon-cyan/60 hover:text-neon-cyan"
                   aria-label={profile.ui.map.windowLabels.restore}
                 >
-                  {windowConfigs[id]?.title ?? id}
+                  {windowConfigs[id].title}
                 </button>
               ))}
             </div>
@@ -225,8 +228,8 @@ export default function VaporMapDesktop() {
           {windowOrder
             .filter((id) => openWindows[id] && !openWindows[id]?.minimized)
             .map((id, index) => {
-              const config = windowConfigs[id];
-              if (!config) return null;
+              const typedId = id as keyof typeof windowConfigs;
+              const config = windowConfigs[typedId];
               return (
                 <Window
                   key={id}
