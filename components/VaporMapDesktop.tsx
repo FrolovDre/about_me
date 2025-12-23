@@ -247,6 +247,7 @@ export default function VaporMapDesktop() {
             {profile.mapNodes.map((node, index) => {
               const layout = pyramidLayout[node.id];
               if (!layout) return null;
+
               return (
                 <div
                   key={node.id}
@@ -263,40 +264,40 @@ export default function VaporMapDesktop() {
                         }
                   }
                 >
-                <div
-                  className={`absolute inset-0 hidden bg-gradient-to-b ${layout.tone} md:block`}
-                  style={{
-                    clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
-                  }}
-                  aria-hidden="true"
-                />
-                <div
-                  className="absolute left-0 top-0 hidden h-full w-1/2 md:block"
-                  style={{
-                    clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
-                    background:
-                      'linear-gradient(130deg, rgba(255,255,255,0.18) 0%, rgba(120,60,200,0.15) 50%, rgba(10,5,30,0.2) 100%)',
-                  }}
-                  aria-hidden="true"
-                />
-                <div
-                  className="absolute right-0 top-0 hidden h-full w-1/2 md:block"
-                  style={{
-                    clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
-                    background:
-                      'linear-gradient(220deg, rgba(10,5,30,0.65) 0%, rgba(20,8,40,0.3) 55%, rgba(120,60,200,0.12) 100%)',
-                  }}
-                  aria-hidden="true"
-                />
-                <div
-                  className="absolute inset-0 hidden opacity-60 md:block"
-                  style={{
-                    background:
-                      'linear-gradient(120deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 55%)',
-                    clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
-                  }}
-                  aria-hidden="true"
-                />
+                  <div
+                    className={`absolute inset-0 hidden bg-gradient-to-b ${layout.tone} md:block`}
+                    style={{
+                      clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
+                    }}
+                    aria-hidden="true"
+                  />
+                  <div
+                    className="absolute left-0 top-0 hidden h-full w-1/2 md:block"
+                    style={{
+                      clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
+                      background:
+                        'linear-gradient(130deg, rgba(255,255,255,0.18) 0%, rgba(120,60,200,0.15) 50%, rgba(10,5,30,0.2) 100%)',
+                    }}
+                    aria-hidden="true"
+                  />
+                  <div
+                    className="absolute right-0 top-0 hidden h-full w-1/2 md:block"
+                    style={{
+                      clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
+                      background:
+                        'linear-gradient(220deg, rgba(10,5,30,0.65) 0%, rgba(20,8,40,0.3) 55%, rgba(120,60,200,0.12) 100%)',
+                    }}
+                    aria-hidden="true"
+                  />
+                  <div
+                    className="absolute inset-0 hidden opacity-60 md:block"
+                    style={{
+                      background:
+                        'linear-gradient(120deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 55%)',
+                      clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
+                    }}
+                    aria-hidden="true"
+                  />
                   <div
                     className={`absolute -bottom-3 left-1/2 hidden h-4 w-[70%] -translate-x-1/2 rounded-full blur-md md:block ${layout.glow}`}
                     aria-hidden="true"
@@ -399,17 +400,6 @@ function MapNode({
 
   const handleActivate = (event: MouseEvent<HTMLButtonElement>) => {
     onSelect(event.currentTarget);
-  };
-
-  const handleActivate = (event: MouseEvent<HTMLDivElement>) => {
-    onSelect(event.currentTarget);
-  };
-
-  const handleKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      onSelect(event.currentTarget);
-    }
   };
 
   return (
