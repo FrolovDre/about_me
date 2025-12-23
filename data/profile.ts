@@ -77,6 +77,18 @@ export interface ProfileData {
       skipLabel: string;
       openLabel: string;
       closeLabel: string;
+      introPrompt: string;
+      controls: {
+        title: string;
+        items: string[];
+      };
+      windowLabels: {
+        minimize: string;
+        close: string;
+        restore: string;
+        minimized: string;
+        description: string;
+      };
     };
     accessibility: {
       themeToggleLabel: string;
@@ -92,6 +104,7 @@ export interface ProfileData {
       projectsTitle: string;
       projectsIntro: string;
       experienceTitle: string;
+      experienceIntro: string;
       contactTitle: string;
       contactIntro: string;
     };
@@ -222,10 +235,22 @@ const profile: ProfileData = {
       'Персональный сайт‑портфолио Андрея Фролова: проекты, опыт работы, образование и достижения.',
     map: {
       title: 'Vaporwave Map',
-      subtitle: 'Выбери узел, чтобы перейти к разделу.',
+      subtitle: 'Карта остаётся на экране, а разделы открываются как окна.',
       skipLabel: 'Пропустить карту',
-      openLabel: 'Открыть карту',
+      openLabel: 'Открыть окно',
       closeLabel: 'Закрыть карту',
+      introPrompt: 'Что ищу сейчас',
+      controls: {
+        title: 'Map Controls',
+        items: ['Click nodes', 'Drag windows', 'Esc to close', 'Minimize to return to map'],
+      },
+      windowLabels: {
+        minimize: 'Свернуть окно',
+        close: 'Закрыть окно',
+        restore: 'Восстановить окно',
+        minimized: 'Свернутые окна',
+        description: 'Окно раздела с контентом. Используйте Tab для навигации.',
+      },
     },
     accessibility: {
       themeToggleLabel: 'Сменить тему',
@@ -242,6 +267,7 @@ const profile: ProfileData = {
       projectsIntro:
         'От коротких исследований до архитектурных проектов — каждый кейс показывает продуктовую ценность и влияние на бизнес.',
       experienceTitle: 'Опыт',
+      experienceIntro: 'Карточки с измеримыми результатами, зонами ответственности и инструментами.',
       contactTitle: 'Контакты',
       contactIntro: 'Открыт к сотрудничеству, проектам и новым возможностям.',
     },
