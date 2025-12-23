@@ -61,6 +61,19 @@ a {
   }
 }
 
+@keyframes grid-treadmill {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 240px;
+  }
+}
+
+.animate-grid-treadmill::before {
+  animation: grid-treadmill 6s linear infinite;
+}
+
 /* Фокус для интерактивных элементов */
 button:focus-visible,
 a:focus-visible,
