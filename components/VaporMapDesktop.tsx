@@ -1,8 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent } from 'react';
 import profile from '../data/profile';
+import MapRoutes from './MapRoutes';
 import Window from './Window';
 import ContactWindow from './windows/ContactWindow';
 import ExperienceWindow from './windows/ExperienceWindow';
@@ -76,6 +77,7 @@ export default function VaporMapDesktop() {
   const [windowOrder, setWindowOrder] = useState<string[]>([]);
   const [activeWindow, setActiveWindow] = useState<string>('');
   const [isMobile, setIsMobile] = useState(false);
+  const [skillsFocus, setSkillsFocus] = useState<string | null>(null);
   const constraintsRef = useRef<HTMLDivElement | null>(null);
   const openerRefs = useRef<Record<string, HTMLElement | null>>({});
 
@@ -96,7 +98,7 @@ export default function VaporMapDesktop() {
         },
         skills: {
           title: profile.ui.sections.skillsTitle,
-          content: <SkillsWindow />,
+          content: <SkillsWindow focusCategory={skillsFocus} />,
         },
         projects: {
           title: profile.ui.sections.projectsTitle,
@@ -440,6 +442,6 @@ function MapNode({
           <span className="mt-2 block">{node.description}</span>
         </span>
       )}
-    </motion.button>
+    </motion.div>
   );
 }
