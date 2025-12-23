@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type MouseEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent } from 'react';
 import profile from '../data/profile';
 import MapRoutes from './MapRoutes';
 import Window from './Window';
@@ -19,9 +19,9 @@ const nodePositions: Record<string, string> = {
   experience:
     'order-4 md:left-[18%] md:top-[78%] md:w-[640px] md:h-[120px]',
   skills:
-    'order-3 md:left-[78%] md:top-[30%] md:w-[420px] md:h-[190px]',
+    'order-3 md:left-[78%] md:top-[30%] md:-translate-x-1/2 md:w-[420px] md:h-[190px]',
   contact:
-    'order-5 md:left-[82%] md:top-[74%] md:w-[360px] md:h-[190px]',
+    'order-5 md:left-[82%] md:top-[74%] md:-translate-x-1/2 md:w-[360px] md:h-[190px]',
 };
 
 const windowPresets: Record<string, { left: string; top: string }> = {
@@ -137,7 +137,7 @@ export default function VaporMapDesktop() {
   );
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
       if (event.key !== 'Escape' || !activeWindow) return;
       closeWindow(activeWindow);
     };
@@ -214,7 +214,7 @@ export default function VaporMapDesktop() {
             <MapRoutes hoveredNode={hoveredNode} />
           </div>
 
-          <div className="relative z-30 grid w-full max-w-5xl grid-cols-2 gap-6 md:block md:h-[520px]">
+          <div className="relative z-30 grid w-full max-w-6xl grid-cols-2 gap-6 md:block md:h-[640px]">
             {profile.mapNodes.map((node, index) => (
               <MapNode
                 key={node.id}
@@ -334,7 +334,7 @@ function MapNode({
     onSelect(event.currentTarget);
   };
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       onSelect(event.currentTarget);
