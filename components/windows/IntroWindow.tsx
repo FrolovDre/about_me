@@ -60,6 +60,22 @@ export default function IntroWindow() {
         </div>
       </div>
 
+      <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+        <h4 className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
+          Образование
+        </h4>
+        <div className="mt-4 space-y-4">
+          {profile.education.map((item) => (
+            <div key={item.institution} className="space-y-1">
+              <p className="text-sm font-semibold text-white">{item.institution}</p>
+              <p className="text-xs text-white/60">{item.degree}</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-white/40">{item.period}</p>
+              {item.description && <p className="text-xs text-white/60">{item.description}</p>}
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/70">
         <h4 className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
           {profile.ui.map.introPrompt}
