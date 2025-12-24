@@ -64,6 +64,8 @@ const pyramidLayout: Record<
   },
 };
 
+const MotionButton = motion.button;
+
 const windowPresets: Record<string, { left: string; top: string }> = {
   home: { left: '8%', top: '8%' },
   skills: { left: '52%', top: '12%' },
@@ -403,7 +405,7 @@ function MapNode({
   };
 
   return (
-    <motion.button
+    <MotionButton
       type="button"
       onClick={handleActivate}
       className={`group ${className ?? ''} z-20 inline-flex min-w-[150px] flex-col items-center gap-1 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-center text-xs uppercase tracking-[0.25em] text-white/80 shadow-glow transition-transform focus-visible:ring-2 focus-visible:ring-neon-cyan ${
@@ -442,6 +444,6 @@ function MapNode({
           <span className="mt-2 block">{node.description}</span>
         </span>
       )}
-    </motion.div>
+    </MotionButton>
   );
 }
