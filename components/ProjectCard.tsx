@@ -62,14 +62,6 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       }}
     >
       <div className="project-spotlight pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition duration-500 group-hover:opacity-100" />
-      <div className="relative overflow-hidden rounded-3xl">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="h-44 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-tr from-neon-pink/30 via-transparent to-neon-cyan/40" />
-      </div>
       <div className="flex flex-1 flex-col gap-4 p-6">
         <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-white/70">
           <span className="rounded-full border border-neon-pink/40 bg-neon-pink/10 px-3 py-1 font-medium text-neon-pink">

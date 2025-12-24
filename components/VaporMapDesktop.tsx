@@ -23,35 +23,35 @@ const pyramidLayout: Record<
   }
 > = {
   home: {
-    left: '12%',
-    bottom: '18%',
-    width: 220,
-    height: 150,
-    tone: 'from-[#6a2fd4] via-[#2a0b52] to-[#120621]',
-    glow: 'bg-[#7b39ff]/25',
-  },
-  experience: {
-    left: '24%',
-    bottom: '16%',
-    width: 280,
-    height: 170,
-    tone: 'from-[#7a2fe0] via-[#2c0d58] to-[#140629]',
-    glow: 'bg-[#8a45ff]/25',
-  },
-  projects: {
-    left: '46%',
+    left: '52%',
     bottom: '22%',
     width: 420,
     height: 260,
-    tone: 'from-[#4f1a8f] via-[#1b0838] to-[#0c0618]',
+    tone: 'linear-gradient(180deg, #4f1a8f 0%, #1b0838 55%, #0c0618 100%)',
     glow: 'bg-[#ff4fa3]/30',
   },
+  experience: {
+    left: '26%',
+    bottom: '16%',
+    width: 280,
+    height: 170,
+    tone: 'linear-gradient(180deg, #7a2fe0 0%, #2c0d58 55%, #140629 100%)',
+    glow: 'bg-[#8a45ff]/25',
+  },
+  projects: {
+    left: '8%',
+    bottom: '18%',
+    width: 220,
+    height: 150,
+    tone: 'linear-gradient(180deg, #6a2fd4 0%, #2a0b52 55%, #120621 100%)',
+    glow: 'bg-[#7b39ff]/25',
+  },
   skills: {
-    left: '70%',
+    left: '76%',
     bottom: '20%',
     width: 300,
     height: 190,
-    tone: 'from-[#8b3be6] via-[#2f0f5f] to-[#16072b]',
+    tone: 'linear-gradient(180deg, #8b3be6 0%, #2f0f5f 55%, #16072b 100%)',
     glow: 'bg-[#9a5bff]/25',
   },
   contact: {
@@ -59,7 +59,7 @@ const pyramidLayout: Record<
     bottom: '18%',
     width: 220,
     height: 150,
-    tone: 'from-[#a24bed] via-[#2d0f5c] to-[#15072c]',
+    tone: 'linear-gradient(180deg, #a24bed 0%, #2d0f5c 55%, #15072c 100%)',
     glow: 'bg-[#7df9ff]/25',
   },
 };
@@ -266,40 +266,45 @@ export default function VaporMapDesktop() {
                         }
                   }
                 >
-                  <div
-                    className={`absolute inset-0 hidden bg-gradient-to-b ${layout.tone} md:block`}
-                    style={{
-                      clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
-                    }}
-                    aria-hidden="true"
-                  />
-                  <div
-                    className="absolute left-0 top-0 hidden h-full w-1/2 md:block"
-                    style={{
-                      clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
-                      background:
-                        'linear-gradient(130deg, rgba(255,255,255,0.18) 0%, rgba(120,60,200,0.15) 50%, rgba(10,5,30,0.2) 100%)',
-                    }}
-                    aria-hidden="true"
-                  />
-                  <div
-                    className="absolute right-0 top-0 hidden h-full w-1/2 md:block"
-                    style={{
-                      clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
-                      background:
-                        'linear-gradient(220deg, rgba(10,5,30,0.65) 0%, rgba(20,8,40,0.3) 55%, rgba(120,60,200,0.12) 100%)',
-                    }}
-                    aria-hidden="true"
-                  />
-                  <div
-                    className="absolute inset-0 hidden opacity-60 md:block"
-                    style={{
-                      background:
-                        'linear-gradient(120deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 55%)',
-                      clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
-                    }}
-                    aria-hidden="true"
-                  />
+                  <div className="absolute inset-0 hidden md:block" aria-hidden="true">
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
+                        backgroundImage: layout.tone,
+                        filter: 'drop-shadow(0 20px 28px rgba(6, 3, 18, 0.65))',
+                      }}
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        clipPath: 'polygon(50% 0%, 0 100%, 50% 100%)',
+                        backgroundImage:
+                          'linear-gradient(200deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.08) 55%, rgba(12,6,28,0.4) 100%)',
+                        transform: 'translateX(-10%) skewX(-8deg)',
+                        transformOrigin: 'bottom left',
+                      }}
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        clipPath: 'polygon(50% 0%, 50% 100%, 100% 100%)',
+                        backgroundImage:
+                          'linear-gradient(330deg, rgba(10,5,30,0.85) 0%, rgba(10,5,30,0.35) 60%, rgba(255,255,255,0.06) 100%)',
+                        transform: 'translateX(8%) skewX(6deg)',
+                        transformOrigin: 'bottom right',
+                      }}
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        clipPath: 'polygon(50% 4%, 90% 90%, 10% 90%)',
+                        background:
+                          'radial-gradient(circle at 50% 20%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 55%)',
+                        opacity: 0.8,
+                      }}
+                    />
+                  </div>
                   <div
                     className={`absolute -bottom-3 left-1/2 hidden h-4 w-[70%] -translate-x-1/2 rounded-full blur-md md:block ${layout.glow}`}
                     aria-hidden="true"
@@ -323,7 +328,7 @@ export default function VaporMapDesktop() {
                     className={
                       isMobile
                         ? 'relative'
-                        : 'absolute left-1/2 top-[55%] z-20 -translate-x-1/2 -translate-y-1/2'
+                        : 'absolute left-[40%] top-1/2 z-20 -translate-x-1/2 -translate-y-1/2'
                     }
                   />
                 </div>
@@ -408,7 +413,7 @@ function MapNode({
     <MotionButton
       type="button"
       onClick={handleActivate}
-      className={`group ${className ?? ''} z-20 inline-flex min-w-[150px] flex-col items-center gap-1 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-center text-xs uppercase tracking-[0.25em] text-white/80 shadow-glow transition-transform focus-visible:ring-2 focus-visible:ring-neon-cyan ${
+      className={`group ${className ?? ''} z-20 inline-flex min-w-[150px] flex-col items-center gap-1 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-center text-xs uppercase tracking-[0.25em] text-white/80 shadow-glow transition-transform focus-visible:ring-2 focus-visible:ring-neon-cyan md:min-w-0 md:max-w-[72%] md:px-3 md:py-2 md:text-[11px] md:leading-snug md:tracking-[0.2em] md:whitespace-normal ${
         isActive
           ? 'border-neon-cyan/80 text-neon-cyan shadow-glow-strong'
           : 'hover:border-neon-pink/70 hover:text-neon-pink'

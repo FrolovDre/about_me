@@ -47,7 +47,12 @@ export default function Window({
   const headingId = useId();
   const descriptionId = useId();
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const baseStyle = isMobile ? {} : { left: defaultPosition.left, top: defaultPosition.top };
+  const baseStyle = isMobile
+    ? {}
+    : {
+        left: defaultPosition.left,
+        top: `min(${defaultPosition.top}, calc(100vh - 5rem))`,
+      };
 
   const focusFirst = useCallback(() => {
     const container = containerRef.current;
@@ -99,7 +104,7 @@ export default function Window({
       aria-labelledby={headingId}
       aria-describedby={descriptionId}
       tabIndex={-1}
-      className={`window-shell pointer-events-auto absolute w-[min(720px,92vw)] max-w-full rounded-3xl border border-white/15 bg-vapor-dusk/80 text-white shadow-glow backdrop-blur-xl focus:outline-none md:w-[min(760px,68vw)] ${
+      className={`window-shell pointer-events-auto absolute max-h-[calc(100vh-2.5rem)] w-[min(720px,92vw)] max-w-full rounded-3xl border border-white/15 bg-vapor-dusk/80 text-white shadow-glow backdrop-blur-xl focus:outline-none md:w-[min(760px,68vw)] ${
         isMobile ? 'inset-4' : ''
       } ${isActive ? 'ring-2 ring-neon-cyan/60' : 'ring-1 ring-white/10'}`}
       style={{ ...baseStyle, ...style }}
@@ -146,7 +151,7 @@ export default function Window({
       <div id={descriptionId} className="sr-only">
         {profile.ui.map.windowLabels.description}
       </div>
-      <div className="max-h-[70vh] space-y-6 overflow-y-auto px-5 py-6 md:max-h-[72vh]">
+      <div className="max-h-[calc(100vh-10rem)] space-y-6 overflow-y-auto px-5 py-6 md:max-h-[calc(100vh-11rem)]">
         {children}
       </div>
     </motion.div>

@@ -202,7 +202,7 @@ const profile: ProfileData = {
       label: 'Projects',
       href: '#projects',
       description: 'Кейсы с метриками и решениями.',
-      badge: 'WORK',
+      badge: 'PET',
       icon: '⬡',
     },
     {
@@ -262,7 +262,7 @@ const profile: ProfileData = {
     sections: {
       aboutTitle: 'Обо мне',
       skillsTitle: 'Навыки',
-      projectsTitle: 'Проекты',
+      projectsTitle: 'PET PROJECTS',
       projectsIntro:
         'Кейсы с фокусом на ценность для пользователя и влияние на бизнес.',
       experienceTitle: 'Опыт',
@@ -295,11 +295,10 @@ const profile: ProfileData = {
   contact: {
     email: '5rolov.a9dr8y@gmail.com',
     phone: '+7 (916) 9238213',
-    location: 'Москва (Планерная), Россия',
+    location: 'Москва',
     socials: [
-      { label: 'LinkedIn', url: 'https://linkedin.com/in/andreifrolov' },
-      { label: 'GitHub', url: 'https://github.com/FrolovDre' },
-      { label: 'Telegram', url: 'https://t.me/yourusername' },
+      { label: 'GitHub', url: 'https://github.com/FrolovDre/about_me' },
+      { label: 'Telegram', url: 'https://t.me/frolov_dre' },
     ],
   },
   // Навыки сгруппированы по категориям. Добавьте нужные и удалите лишние.

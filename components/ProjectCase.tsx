@@ -44,7 +44,7 @@ export default function ProjectCase({ project }: ProjectCaseProps) {
           {profile.ui.projectCase.backLabel}
         </Link>
       </motion.div>
-      <motion.div variants={itemVariants} className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+      <motion.div variants={itemVariants} className="grid gap-8">
         <div>
           <h1 className="text-4xl font-semibold text-white md:text-5xl">
             {project.title}
@@ -63,9 +63,6 @@ export default function ProjectCase({ project }: ProjectCaseProps) {
               </span>
             ))}
           </div>
-        </div>
-        <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-glow">
-          <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
         </div>
       </motion.div>
 
