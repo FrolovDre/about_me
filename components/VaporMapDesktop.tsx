@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent } from 'react';
 import profile from '../data/profile';
 import MapRoutes from './MapRoutes';
 import Window from './Window';
@@ -11,125 +11,60 @@ import IntroWindow from './windows/IntroWindow';
 import ProjectsWindow from './windows/ProjectsWindow';
 import SkillsWindow from './windows/SkillsWindow';
 
-const nodePlacements: Record<
+const pyramidLayout: Record<
   string,
   {
     left: string;
-    top: string;
-    width: string;
-    emphasis?: boolean;
-    order: string;
+    bottom: string;
+    width: number;
+    height: number;
+    tone: string;
+    glow: string;
   }
 > = {
   home: {
-    left: '50%',
-    top: '54%',
-    width: 'clamp(200px, 18vw, 260px)',
-    emphasis: true,
-    order: 'order-1',
-  },
-  projects: {
-    left: '56%',
-    top: '62%',
-    width: 'clamp(180px, 16vw, 230px)',
-    order: 'order-2',
+    left: '12%',
+    bottom: '18%',
+    width: 220,
+    height: 150,
+    tone: 'from-[#6a2fd4] via-[#2a0b52] to-[#120621]',
+    glow: 'bg-[#7b39ff]/25',
   },
   experience: {
-    left: '30%',
-    top: '70%',
-    width: 'clamp(170px, 15vw, 220px)',
-    order: 'order-3',
+    left: '24%',
+    bottom: '16%',
+    width: 280,
+    height: 170,
+    tone: 'from-[#7a2fe0] via-[#2c0d58] to-[#140629]',
+    glow: 'bg-[#8a45ff]/25',
+  },
+  projects: {
+    left: '46%',
+    bottom: '22%',
+    width: 420,
+    height: 260,
+    tone: 'from-[#4f1a8f] via-[#1b0838] to-[#0c0618]',
+    glow: 'bg-[#ff4fa3]/30',
   },
   skills: {
-    left: '72%',
-    top: '70%',
-    width: 'clamp(170px, 15vw, 220px)',
-    order: 'order-4',
+    left: '70%',
+    bottom: '20%',
+    width: 300,
+    height: 190,
+    tone: 'from-[#8b3be6] via-[#2f0f5f] to-[#16072b]',
+    glow: 'bg-[#9a5bff]/25',
   },
   contact: {
-    left: '86%',
-    top: '72%',
-    width: 'clamp(170px, 14vw, 210px)',
-    order: 'order-5',
+    left: '88%',
+    bottom: '18%',
+    width: 220,
+    height: 150,
+    tone: 'from-[#a24bed] via-[#2d0f5c] to-[#15072c]',
+    glow: 'bg-[#7df9ff]/25',
   },
 };
 
-const pyramidScene = [
-  {
-    id: 'pyramid-main',
-    left: '42%',
-    bottom: '36%',
-    size: 'clamp(240px, 28vw, 420px)',
-    depth: '120px',
-    rotateY: '34deg',
-    rotateX: '12deg',
-    color: '#5b1f98',
-    edge: '#d68cff',
-    opacity: 0.95,
-  },
-  {
-    id: 'pyramid-left',
-    left: '18%',
-    bottom: '34%',
-    size: 'clamp(200px, 22vw, 340px)',
-    depth: '100px',
-    rotateY: '26deg',
-    rotateX: '10deg',
-    color: '#4a167e',
-    edge: '#9b6bff',
-    opacity: 0.8,
-  },
-  {
-    id: 'pyramid-mid',
-    left: '55%',
-    bottom: '38%',
-    size: 'clamp(180px, 20vw, 300px)',
-    depth: '90px',
-    rotateY: '30deg',
-    rotateX: '11deg',
-    color: '#6a2bb0',
-    edge: '#c281ff',
-    opacity: 0.85,
-  },
-  {
-    id: 'pyramid-right',
-    left: '74%',
-    bottom: '36%',
-    size: 'clamp(160px, 18vw, 260px)',
-    depth: '80px',
-    rotateY: '38deg',
-    rotateX: '12deg',
-    color: '#7a36c4',
-    edge: '#ff78c8',
-    opacity: 0.75,
-  },
-  {
-    id: 'pyramid-right-small',
-    left: '88%',
-    bottom: '34%',
-    size: 'clamp(140px, 16vw, 220px)',
-    depth: '70px',
-    rotateY: '42deg',
-    rotateX: '10deg',
-    color: '#8f45d8',
-    edge: '#ff9de1',
-    opacity: 0.7,
-  },
-];
-
 const MotionButton = motion.button;
-
-interface Pyramid3DProps {
-  left: string;
-  bottom: string;
-  size: string;
-  depth: string;
-  rotateY: string;
-  rotateX: string;
-  color: string;
-  edge: string;
-  opacity: number;
-}
 
 const windowPresets: Record<string, { left: string; top: string }> = {
   home: { left: '8%', top: '8%' },
@@ -266,7 +201,6 @@ export default function VaporMapDesktop() {
         }}
         aria-hidden="true"
       />
-      <div className="absolute inset-0 z-[5] outrun-scanlines" aria-hidden="true" />
       <div
         className="absolute inset-0 z-0 opacity-80"
         style={{
@@ -275,15 +209,28 @@ export default function VaporMapDesktop() {
         }}
         aria-hidden="true"
       />
-      <div className="absolute left-1/2 top-[18%] z-[6] h-[260px] w-[260px] -translate-x-1/2 rounded-full shadow-[0_0_90px_rgba(255,120,200,0.55)]">
-        <div className="absolute inset-0 rounded-full outrun-sun" />
+      <div className="absolute left-1/2 top-[18%] z-0 h-[240px] w-[240px] -translate-x-1/2 rounded-full shadow-[0_0_90px_rgba(255,120,200,0.55)]">
+        <div
+          className="absolute inset-0 rounded-full"
+          style={{
+            background:
+              'linear-gradient(180deg, #ff3fae 0%, #ff7f50 55%, #ffd166 100%)',
+          }}
+        />
+        <div
+          className="absolute inset-0 rounded-full"
+          style={{
+            backgroundImage:
+              'repeating-linear-gradient(to bottom, rgba(10,4,30,0) 0px, rgba(10,4,30,0) 18px, rgba(10,4,30,0.45) 20px, rgba(10,4,30,0.45) 28px)',
+          }}
+        />
       </div>
       <div
         className="absolute inset-x-0 top-[48%] z-0 h-[120px] bg-gradient-to-b from-[#ff6aa6]/60 via-transparent to-transparent"
         aria-hidden="true"
       />
       <div
-        className="outrun-grid absolute inset-x-0 bottom-0 z-0 h-[45%] opacity-80 animate-grid-treadmill"
+        className="retro-grid absolute inset-x-0 bottom-0 z-0 h-[45%] opacity-70 animate-grid-treadmill"
         aria-hidden="true"
       />
       <div
@@ -298,30 +245,65 @@ export default function VaporMapDesktop() {
         </header>
 
         <div className="relative flex flex-1 items-center justify-center px-6 pb-10 md:px-12">
-          <div className="absolute inset-0 z-10 pointer-events-none">
-            {pyramidScene.map((pyramid) => (
-              <Pyramid3D key={pyramid.id} {...pyramid} />
-            ))}
-          </div>
-
-          <div className="relative z-30 grid w-full max-w-5xl grid-cols-2 gap-6 md:block md:h-[620px]">
+          <div className="relative z-30 grid w-full max-w-5xl grid-cols-2 gap-6 md:block md:h-[560px]">
             {profile.mapNodes.map((node, index) => {
-              const placement = nodePlacements[node.id];
-              if (!placement) return null;
+              const layout = pyramidLayout[node.id];
+              if (!layout) return null;
+
               return (
                 <div
                   key={node.id}
-                  className={`relative flex min-h-[160px] flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/5 md:absolute md:min-h-0 md:border-0 md:bg-transparent ${placement.order}`}
+                  className="relative flex min-h-[180px] flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/5 md:absolute md:min-h-0 md:border-0 md:bg-transparent"
                   style={
                     isMobile
                       ? undefined
                       : {
-                          left: placement.left,
-                          top: placement.top,
-                          transform: 'translate(-50%, -50%)',
+                          left: layout.left,
+                          bottom: layout.bottom,
+                          width: `${layout.width}px`,
+                          height: `${layout.height}px`,
+                          transform: 'translateX(-50%)',
                         }
                   }
                 >
+                  <div
+                    className={`absolute inset-0 hidden bg-gradient-to-b ${layout.tone} md:block`}
+                    style={{
+                      clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
+                    }}
+                    aria-hidden="true"
+                  />
+                  <div
+                    className="absolute left-0 top-0 hidden h-full w-1/2 md:block"
+                    style={{
+                      clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
+                      background:
+                        'linear-gradient(130deg, rgba(255,255,255,0.18) 0%, rgba(120,60,200,0.15) 50%, rgba(10,5,30,0.2) 100%)',
+                    }}
+                    aria-hidden="true"
+                  />
+                  <div
+                    className="absolute right-0 top-0 hidden h-full w-1/2 md:block"
+                    style={{
+                      clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
+                      background:
+                        'linear-gradient(220deg, rgba(10,5,30,0.65) 0%, rgba(20,8,40,0.3) 55%, rgba(120,60,200,0.12) 100%)',
+                    }}
+                    aria-hidden="true"
+                  />
+                  <div
+                    className="absolute inset-0 hidden opacity-60 md:block"
+                    style={{
+                      background:
+                        'linear-gradient(120deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 55%)',
+                      clipPath: 'polygon(50% 0%, 100% 100%, 0 100%)',
+                    }}
+                    aria-hidden="true"
+                  />
+                  <div
+                    className={`absolute -bottom-3 left-1/2 hidden h-4 w-[70%] -translate-x-1/2 rounded-full blur-md md:block ${layout.glow}`}
+                    aria-hidden="true"
+                  />
                   <MapNode
                     node={node}
                     index={index}
@@ -338,17 +320,10 @@ export default function VaporMapDesktop() {
                         openWindow(node.id, opener);
                       }
                     }}
-                    className={`${
+                    className={
                       isMobile
                         ? 'relative'
-                        : 'absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2'
-                    } ${placement.emphasis ? 'md:scale-[1.06]' : ''}`}
-                    style={
-                      isMobile
-                        ? undefined
-                        : ({
-                            width: placement.width,
-                          } as CSSProperties)
+                        : 'absolute left-1/2 top-[55%] z-20 -translate-x-1/2 -translate-y-1/2'
                     }
                   />
                 </div>
@@ -413,7 +388,6 @@ interface MapNodeProps {
   isMobile: boolean;
   onSelect: (opener: HTMLElement) => void;
   className?: string;
-  style?: CSSProperties;
 }
 
 function MapNode({
@@ -423,7 +397,6 @@ function MapNode({
   isMobile,
   onSelect,
   className,
-  style,
 }: MapNodeProps) {
   const prefersReducedMotion = useReducedMotion();
 
@@ -435,8 +408,7 @@ function MapNode({
     <MotionButton
       type="button"
       onClick={handleActivate}
-      style={style}
-      className={`group ${className ?? ''} z-20 inline-flex min-w-[150px] flex-col items-center gap-1 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-center text-xs uppercase tracking-[0.25em] text-white/90 shadow-glow backdrop-blur-md transition-transform focus-visible:ring-2 focus-visible:ring-neon-cyan ${
+      className={`group ${className ?? ''} z-20 inline-flex min-w-[150px] flex-col items-center gap-1 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-center text-xs uppercase tracking-[0.25em] text-white/80 shadow-glow transition-transform focus-visible:ring-2 focus-visible:ring-neon-cyan ${
         isActive
           ? 'border-neon-cyan/80 text-neon-cyan shadow-glow-strong'
           : 'hover:border-neon-pink/70 hover:text-neon-pink'
@@ -473,43 +445,5 @@ function MapNode({
         </span>
       )}
     </MotionButton>
-  );
-}
-
-function Pyramid3D({
-  left,
-  bottom,
-  size,
-  depth,
-  rotateY,
-  rotateX,
-  color,
-  edge,
-  opacity,
-}: Pyramid3DProps) {
-  return (
-    <div
-      className="pyramid-3d"
-      style={
-        {
-          left,
-          bottom,
-          '--pyramid-size': size,
-          '--pyramid-depth': depth,
-          '--pyramid-rotate-y': rotateY,
-          '--pyramid-rotate-x': rotateX,
-          '--pyramid-color': color,
-          '--pyramid-edge': edge,
-          opacity,
-        } as CSSProperties
-      }
-      aria-hidden="true"
-    >
-      <span className="pyramid-face pyramid-face-front" />
-      <span className="pyramid-face pyramid-face-left" />
-      <span className="pyramid-face pyramid-face-right" />
-      <span className="pyramid-face pyramid-face-back" />
-      <span className="pyramid-rim" />
-    </div>
   );
 }
